@@ -45,18 +45,31 @@ columns, so the output looks better.
 
 import random
 import sys
+import string
+
+def read_file(file):
+    file_lines = open(str(file), 'r').read().lower()
+    file_list_no_punctuation =  file_lines.translate(None, string.punctuation).split()
+    return file_list_no_punctuation
 
 
 def mimic_dict(filename):
     """Returns mimic dict mapping each word to list of words which follow it."""
-    # +++your code here+++
-    raise NotImplementedError("Get to Work!")
+    list_of_words = read_file(filename)
+    mimic_dict = {}
+    for i, word in enumerate(list_of_words):
+        mimic_dict[word] = list_of_words[i + 1:]
+    return mimic_dict
 
 
-def print_mimic(mimic_dict, word):
-    """Given mimic dict and start word, prints 200 random words."""
-    # +++your code here+++
-    raise NotImplementedError("Get to Work!")
+
+def print_mimic(mimic_dict):
+    """Given mimic dict and start word, prints 200 random words. Removed second argument as it is not needed for my implementation"""
+    if len(mimic_dict) >= 200:
+        print random.sample(mimic_dict.items(), 200)
+    else: 
+        print random.sample(mimic_dict.items(), len(mimic_dict))
+    
 
 
 # Provided main(), calls mimic_dict() and mimic()
@@ -66,7 +79,7 @@ def main():
         sys.exit(1)
 
     d = mimic_dict(sys.argv[1])
-    print_mimic(d, '')
+    print_mimic(d)
 
 
 if __name__ == '__main__':
